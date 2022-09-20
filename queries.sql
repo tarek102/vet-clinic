@@ -25,10 +25,10 @@ SELECT * FROM animals;
 ROLLBACK;
 
 
-BEGIN
-vet_clinic=*# UPDATE animals SET species = 'digimon' WHERE name LIKE '%mon';
+BEGIN;
+UPDATE animals SET species = 'digimon' WHERE name LIKE '%mon';
 
-vet_clinic=*# Update animals SET species = 'pokemon' Where species IS NULL;
+Update animals SET species = 'pokemon' Where species IS NULL;
 
 COMMIT;
 
