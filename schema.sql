@@ -11,7 +11,7 @@ CREATE TABLE animals (
     weight_kg DECIMAL NOT NULL
 );
 
-// Add species column
+/* Add species column */
 
 ALTER TABLE animals ADD species VARCHAR(255);
 
@@ -29,5 +29,12 @@ ALTER TABLE animals DROP COLUMN species;
 
 ALTER TABLE animals ADD COLUMN species_id INT REFERENCES species(id);
 
-ALTER TABLE animals ADD COLUMN owner_id INT REFERENCES owners(id)
+ALTER TABLE animals ADD COLUMN owner_id INT REFERENCES owners(id);
 
+/* Create vets and joining tables */
+
+CREATE TABLE vets ( id INT GENERATED ALWAYS AS IDENTITY, name VARCHAR(255) NOT NULL, age INT NOT NULL, date_of_graduation DATE NOT NULL, PRIMARY KEY(id));
+
+CREATE TABLE specialization ( id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, species_id INT REFERENCES species(id), vet_id INT REFERENCES vets(id) );
+
+CREATE TABLE visits ( id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, animals_id INT REFERENCES animals(id), vet_id INT REFERENCES vets(id), date_of_visit DATE NOT NULL);
