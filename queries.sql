@@ -83,3 +83,40 @@ SELECT animals.name FROM animals INNER JOIN owners ON owners.id = animals.owner_
 SELECT owners.full_name, COUNT(*) FROM owners JOIN animals ON owners.id = animals.owner_id GROUP BY owners.full_name ORDER BY COUNT(*) DESC LIMIT (1);
 
 
+/* Who was the last animal seen by William Tatcher? */
+
+SELECT animals.name FROM animals INNER JOIN visits ON visits.animals_id = animals.id WHERE visits.vet_id = 1 ORDER BY date_of_visit DESC LIMIT 1;
+
+/* How many different animals did Stephanie Mendez see? */
+
+SELECT COUNT(animals.name) FROM animals INNER JOIN visits ON visits.animals_id = animals.id WHERE visits.vet_id = 3;
+
+/* List all vets and their specialties, including vets with no specialties. */
+
+SELECT vets.name, species.name FROM vets LEFT JOIN specialization ON specialization.vet_id = vets.id LEFT JOIN species ON specialization.species_id = species.id;
+
+/* List all animals that visited Stephanie Mendez between April 1st and August 30th, 2020. */
+
+SELECT animals.name FROM animals INNER JOIN visits ON animals.id = visits.animals_id WHERE visits.vet_id = 3 AND visits.date_of_visit BETWEEN '2020-04-01' AND '2020-08-30';
+
+/* What animal has the most visits to vets? */
+
+SELECT animals.name FROM animals INNER JOIN visits ON animals.id = visits.animals_id GROUP BY visits.animals_id, animals.name ORDER BY COUNT(visits.animals_id) DESC LIMIT 1;
+
+
+ /* Who was Maisy Smith's first visit? */
+ 
+ SELECT name FROM animals INNER JOIN visits ON animals.id = visits.animals_id WHERE visits.vet_id = 2 ORDER BY visits.date_of_visit ASC LIMIT 1;
+ 
+ 
+ /* Details for most recent visit: animal information, vet information, and date of visit. */
+ 
+ SELECT animals.name, vets.name, visits.date_of_visit FROM animals INNER JOIN visits ON animals.id = visits.animals_id INNER JOIN vets ON vets.id = visits.vet_id ORDER BY visits.date_of_visit LIMIT 1;
+ 
+ 
+/* What specialty should Maisy Smith consider getting? Look for the species she gets the most. */
+ 
+SELECT COUNT(visits.animals_id), species.name FROM visits JOIN animals ON animals.id = visits.animals_id JOIN species ON animals.species_id = species.id WHERE visits.vet_id = 2 GROUP BY species.name ORDER BY COUNT(visits.animals_id) DESC LIMIT 1;
+ 
+
+
